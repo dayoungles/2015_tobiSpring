@@ -14,7 +14,6 @@ public class DConnectionMaker implements ConnectionMaker{
 		Connection c = DriverManager.getConnection("jdbc:mysql://localhost/springDB", "root", "ekdudrmf2");
 		
 		return c;
-		
 	}
 	
 }

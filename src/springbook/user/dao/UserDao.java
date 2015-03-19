@@ -11,29 +11,33 @@ import com.mysql.jdbc.Statement;
 import springbook.user.domain.User;
 
 public class UserDao {
-	private SimpleConnectionMaker simpleConnectionMaker;
+//	private SimpleConnectionMaker simpleConnectionMaker;
+	private ConnectionMaker connectionMaker;
 	
-	public UserDao() {
-		simpleConnectionMaker = new SimpleConnectionMaker();
+	public UserDao(ConnectionMaker connectionMaker) {
+//		simpleConnectionMaker = new SimpleConnectionMaker();
+//		connectionMaker = new DConnectionMaker();
+		this.connectionMaker = connectionMaker;
 	}
-	
-	public static void main(String[] args) throws ClassNotFoundException, SQLException{
-		UserDao dao = new UserDao();
-		User user = new User();
-		user.setId("dayg");
-		user.setName("dayoungle");
-		user.setPassword("day");
-		
-		dao.add(user);
-		
-		System.out.println(user.getId()+"등록 성공 ");
-		
-		User user2 = dao.get(user.getId());
-		System.out.println(user2.getName());
-		System.out.println(user2.getPassword());
-		System.out.println(user2.getId() +"조회 성공 ");
-		
-	}
+//	
+//	public static void main(String[] args) throws ClassNotFoundException, SQLException{
+//		
+//		UserDao dao = new UserDao();
+//		User user = new User();
+//		user.setId("dayg");
+//		user.setName("dayoungle");
+//		user.setPassword("day");
+//		
+//		dao.add(user);
+//		
+//		System.out.println(user.getId()+"등록 성공 ");
+//		
+//		User user2 = dao.get(user.getId());
+//		System.out.println(user2.getName());
+//		System.out.println(user2.getPassword());
+//		System.out.println(user2.getId() +"조회 성공 ");
+//		
+//	}
 	
 	//public abstract Connection getConnection() throws ClassNotFoundException, SQLException;
 	//{
@@ -43,7 +47,8 @@ public class UserDao {
 //		return c;
 //	}
 	public void add(User user) throws ClassNotFoundException, SQLException{
-		Connection c = simpleConnectionMaker.makeNewConnection();
+//		Connection c = simpleConnectionMaker.makeNewConnection();
+		Connection c = connectionMaker.makeConnection();
 		
 		PreparedStatement ps = c.prepareStatement("insert into users(id, name, password) values(?,?,?)");
 		ps.setString(1, user.getId());
@@ -57,7 +62,8 @@ public class UserDao {
 	}
 	
 	public User get(String id) throws ClassNotFoundException, SQLException {
-		Connection c = simpleConnectionMaker.makeNewConnection();
+//		Connection c = simpleConnectionMaker.makeNewConnection();
+		Connection c = connectionMaker.makeConnection();
 		
 		PreparedStatement ps = c.prepareStatement("select * from users where id = ?");
 		ps.setString(1, id);
